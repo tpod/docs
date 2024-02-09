@@ -14,12 +14,6 @@
       "to": "#07C983"
     }
   },
-  "api": {
-    "baseUrl": "https://mintlify.com/api",
-    "auth": {
-
-    }
-  },
   "topbarLinks": [
     {
       "name": "Feedback",
