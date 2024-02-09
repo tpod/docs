@@ -41,13 +41,14 @@
       "group": "Authorization",
       "pages": [
         "api-reference/auth/overview",
-        "api-reference/endpoint/temporary-key",
-        "api-reference/endpoint/waitlist"
+        "api-reference/auth/temporary-key",
+        "api-reference/auth/waitlist"
       ]
     },
     {
       "group": "API Reference",
       "pages": [
+        "api-reference/endpoint/overview",
         "api-reference/endpoint/create",
         "api-reference/endpoint/put",
         "api-reference/endpoint/get-single",

@@ -1,0 +1,48 @@
+---
+title: 'Using the API'
+description: ''
+icon: 'code'
+---
+
+### Introduction
+
+To 
+
+For example: to create a new invoice, send a POST request to the **/invoices** endpoint with a request body of the invoice object. 
+
+<Note>The API accepts </Note>
+
+
+### Schema
+The API does not **currently** support schemas for the resources. So indexes and constraints are not yet possible. 
+
+As long as the request body contains a valid JSON object, it will be accepted.
+
+<Note>All objects must include a property with name **id** that is the unique identifier.</Note>
+
+
+### Relationships
+The API does not **currently** support any type of relationship between resources. Therefore, the best alterative strategy is to embed the related resources inside the top level resource. 
+
+For example, you can embed a customer object or invoice lines in the invoice object as shown below:
+
+```json
+{
+    "id": "1",
+    "invoiceNumber": "12345",
+    "amount": 100.00,
+    "customer": {
+        "id": "1",
+        "firstName": "John",
+        "lastName": "Doe",
+    },
+    "invoiceLines": [
+        {
+            "id": "1",
+            "description": "Product 1",
+            "quantity": 1,
+            "unitPrice": 100.00
+        }
+    ]
+}
+```
