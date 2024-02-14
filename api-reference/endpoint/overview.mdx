@@ -6,25 +6,43 @@ icon: 'code'
 
 ### Introduction
 
-To 
 
-For example: to create a new invoice, send a POST request to the **/invoices** endpoint with a request body of the invoice object. 
+<Tip>More features are coming in the Beta version. Sign up to the [waitlist](/api-reference/auth/overview) to get notified.</Tip>
 
-<Note>The API accepts </Note>
+### Good to know
+- BaseURL of the API is https://instant-rest-api-worker.cacevo.workers.dev/api/
+- The resource name can be anything that is accepted in a URL path (such as `invoices` or `customers`), except restricted endpoints `api/temporary-key` and `api/waitlist`. 
+- All resources created are scoped to an API key and can only be accessed using that specific key. 
 
+### Creating a resource
+Create a resource simply by POSTing a JSON object to the API URL followed by the name of your resource.
+For example: to create a new invoice, send a POST request to the `api/invoices` endpoint with a request body of the invoice object. 
+The following requirements must be met:
+- Header `Content-Type` must be `application/json`
+- Request body must not be empty
+- Body must be a valid JSON 
+- Body must contain `id` field
+- Body must be less than 1mb
+
+<Note>POST & PUT are functionally the same, both will "upsert" the object for the specifid id.</Note>
+
+### Filtering & Searching
+The API does not **currently** support filtering or searching of resources.  
 
 ### Schema
-The API does not **currently** support schemas for the resources. So indexes and constraints are not yet possible. 
-
 As long as the request body contains a valid JSON object, it will be accepted.
 
-<Note>All objects must include a property with name **id** that is the unique identifier.</Note>
+<Note>All objects must include a property with name `id` that is the unique identifier.</Note>
 
+The API does not **currently** support indexes or constraints. 
 
 ### Relationships
-The API does not **currently** support any type of relationship between resources. Therefore, the best alterative strategy is to embed the related resources inside the top level resource. 
+The API does not **currently** support any type of relationship between resources. 
+Instead, you may choose one of the following 2 options.
 
-For example, you can embed a customer object or invoice lines in the invoice object as shown below:
+**1. Embedding related resources**
+
+The easiest strategy is to embed the related resources inside the top level resource. For example, you can embed a customer object or invoice lines in the invoice object as shown below:
 
 ```json
 {
@@ -46,3 +64,43 @@ For example, you can embed a customer object or invoice lines in the invoice obj
     ]
 }
 ```
+Any time a customer or invoiceLine is updated, you must also update the whole invoice object to reflect the changes. 
+
+**2. Embedding ids**
+
+Alternatively, you can embed references to other resources by `id` if you keep track of relationsship updates client side. 
+
+For example, consider the below:
+
+<CodeGroup>
+
+```json api/invoices/1
+{
+    "id": "1",
+    "invoiceNumber": "12345",
+    "amount": 100.00,
+    "customerId": 1,
+    "invoiceLineIds": [1]
+}
+```
+
+```json api/customers/1
+{
+    "id": "1",
+    "firstName": "John",
+    "lastName": "Doe",
+}
+```
+
+```json api/invoicelines/1
+{
+    "id": "1",
+    "description": "Product 1",
+    "quantity": 1,
+    "unitPrice": 100.00
+}
+```
+
+</CodeGroup>
+
+So if you request a `DELETE` on `api/invoicelines/1`, you must also do a `PUT` on `api/invoices/1` and remove the invoiceline from `invoiceLineIds` array. 
