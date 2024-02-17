@@ -22,7 +22,7 @@
   ],
   "topbarCtaButton": {
     "name": "Join Waitlist",
-    "url": "api-reference/auth/overview"
+    "url": "/api-reference/auth/overview"
   },
   "tabs": [
 
