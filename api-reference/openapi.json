@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "https://instant-rest-api-worker.cacevo.workers.dev/api/"
+      "url": "https://instantrestapi.com/api/"
     }
   ],
   "paths": {
