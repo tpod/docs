@@ -11,7 +11,8 @@ icon: 'code'
 
 ### Good to know
 - BaseURL of the API is https://instantrestapi.com/api/
-- The resource name can be anything that is accepted in a URL path (such as `invoices` or `customers`), except restricted endpoints `api/temporary-key` and `api/waitlist`. 
+- The resource name can be anything that is accepted in a URL path (such as `invoices` or `customers`, except in the website test playground - it is fixed to `resources`).
+- `api/temporary-key` and `api/waitlist` endpoints are restricted and can only be used as described in the [authentication section](/api-reference/auth/overview).
 - All resources created are scoped to an API key and can only be accessed using that specific key. 
 
 ### Creating a resource
@@ -19,7 +20,7 @@ Create a resource simply by POSTing a JSON object to the API URL followed by the
 For example: to create a new invoice, send a POST request to the `api/invoices` endpoint with a request body of the invoice object. 
 The following requirements must be met:
 - Header `Content-Type` must be `application/json`
-- Request body must not be empty
+- Body must not be empty
 - Body must be a valid JSON 
 - Body must contain `id` field
 - Body must be less than 1mb
@@ -79,8 +80,8 @@ For example, consider the below:
     "id": "1",
     "invoiceNumber": "12345",
     "amount": 100.00,
-    "customerId": 1,
-    "invoiceLineIds": [1]
+    "customerId": "1",
+    "invoiceLineIds": ["1"]
 }
 ```
 
@@ -104,3 +105,6 @@ For example, consider the below:
 </CodeGroup>
 
 So if you request a `DELETE` on `api/invoicelines/1`, you must also do a `PUT` on `api/invoices/1` and remove the invoiceline from `invoiceLineIds` array. 
+
+### Subresources
+The API does not **currently** support subresources. So for example, you cannot create/get an invoice line by sending a POST/GET request to `api/invoices/1/invoicelines/1`.
