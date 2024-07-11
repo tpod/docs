@@ -4,6 +4,11 @@
     "dark": "/logo/dark.png",
     "light": "/logo/light.png"
   },
+  "analytics": {
+    "plausible": {
+        "domain": "docs.instantrestapi.com"
+    }
+  },
   "favicon": "/favicon.png",
   "colors": {
     "primary": "#0D9373",
